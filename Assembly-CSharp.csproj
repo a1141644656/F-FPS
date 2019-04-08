@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\FPSInput.cs" />
     <Compile Include="Assets\Scripts\MouseLook.cs" />
+    <Compile Include="Assets\Scripts\RayShooter.cs" />
     <Compile Include="Assets\Scripts\Spin.cs" />
     <Compile Include="Assets\Scripts\up_down.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
