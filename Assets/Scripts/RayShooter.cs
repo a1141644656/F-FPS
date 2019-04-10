@@ -19,11 +19,28 @@ public class RayShooter : MonoBehaviour
         {
             Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
             Ray ray = _camera.ScreenPointToRay(point);
+
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit))
             {
-                Debug.Log("Hit " + hit.point);
+                //Debug.Log("Hit " + hit.point);
+                StartCoroutine(SphereIndicator(hit.point));
             }
         }
+    }
+
+    private IEnumerator SphereIndicator(Vector3 pos)
+    {
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        sphere.transform.position = pos;
+
+        yield return new WaitForSeconds(5);
+
+        Destroy(sphere);
+
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.transform.position = pos;
+        yield return new WaitForSeconds(5);
+        Destroy(cube);
     }
 }
