@@ -10,6 +10,19 @@ public class RayShooter : MonoBehaviour
     void Start()
     {
         _camera = GetComponent<Camera>();
+
+        Cursor.lockState = CursorLockMode.Locked;       //Hide the mouse cursor at the center of the screen.
+        Cursor.visible = false;
+    }
+
+    void OnGUI()                // every MonoBehaviour automatically responds to an OnGUI() method
+    {
+        int size = 12;
+        float posX = _camera.pixelWidth / 2 - size / 4;
+        float posY = _camera.pixelHeight / 2 - size / 2;
+        GUI.Label(new Rect(posX, posY, size, size), "*");
+
+        // print("OnGui()");
     }
 
     // Update is called once per frame
@@ -24,7 +37,19 @@ public class RayShooter : MonoBehaviour
             if(Physics.Raycast(ray, out hit))
             {
                 //Debug.Log("Hit " + hit.point);
-                StartCoroutine(SphereIndicator(hit.point));
+                //StartCoroutine(SphereIndicator(hit.point));
+                GameObject hitObject = hit.transform.gameObject;
+                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+                if (target != null)
+                {
+                    //Debug.Log("Target hit");
+                    target.ReactToHit();
+                }
+                else
+                {
+                    StartCoroutine(SphereIndicator(hit.point));
+                }
+
             }
         }
     }
@@ -37,10 +62,12 @@ public class RayShooter : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         Destroy(sphere);
-
+        /*
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         cube.transform.position = pos;
         yield return new WaitForSeconds(5);
         Destroy(cube);
+        */
     }
+
 }
